@@ -1,1 +1,10 @@
 say hi
+set 1=hi
+call 1
+set 1=test
+call 1
+call 2
+copy 1 to 2
+call 2
+#/this is a comment
+return()

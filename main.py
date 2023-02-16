@@ -1,6 +1,7 @@
 import os
 import sys
 from sly import Lexer, Parser
+import subprocess
 
 # Disable
 def blockPrint():
@@ -179,4 +180,7 @@ Dev: OrionOreo
         pass
 
 if __name__ == '__main__':
+    result=subprocess.run(["python3","-m","pip","install","sly>
+    print(result.stdout)
+    result=subprocess.run(["python3","main.py"])
     run_console()

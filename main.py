@@ -1,6 +1,7 @@
 import subprocess
 result=subprocess.run(["python3","-m","pip","install","sly"])
-print(result.stdout)
+open('log.txt', 'r+') as file
+file.write(result)
 import os
 import sys
 from sly import Lexer, Parser
@@ -17,16 +18,18 @@ def run_file(runfile):
     variables = {}
     class BRLexer(Lexer):
         tokens = {
-            SAY, SET, ASSIGN, NUM, CALL, COPY, TO, COMMENT
+            SAY, SET, ASSIGN, NUM, CALL, COPY, TO, COMMENT#, IF, ELSE, THEN
         }
 
         SAY = r'say.*'
         SET = 'set'
         ASSIGN = r'=.*'
-        NUM = r'\d+'
         CALL = 'call'
         COPY = r'copy'
         TO = r'to'
+        #IF = r'if'
+        #ELSE = r'else'
+        #THEN = r'then'
         COMMENT = '#/.*'
 
         ignore = r' ()''""'
@@ -56,26 +59,30 @@ def run_file(runfile):
 
         @_('SET NUM ASSIGN')
         def statement(self, t):
-            var_id = 'var' + t.NUM[0]
+            t.SET.strip(' ')
+            var_id = 'var' + t.SET[2:]
             value = t.ASSIGN[1:]
             variables[var_id] = value
             blockPrint()
             return True
 
-        @_('CALL NUM')
+        @_('CALL')
         def statement(self, t):
             enablePrint()
-            var_id = 'var' + t.NUM[0]
+            t.CALL.strip(' ')
+            var_id = 'var' + t.CALL[3:]
             if var_id in variables:
                 return variables[var_id].strip(' ').strip('"')
             else:
                 return 'ERROR: Variable not found'
 
-        @_('COPY NUM TO NUM')
+        @_('COPY TO')
         def statement(self, t):
             enablePrint()
-            src_id = 'var' + t.NUM0[0]
-            dst_id = 'var' + t.NUM1[0]
+            t.COPY.strip(' ')
+            t.TO.strip(' ')
+            src_id = 'var' + t.COPY[3:]
+            dst_id = 'var' + t.TO[1:]
             if src_id in variables:
                 variables[dst_id] = variables[src_id]
                 blockPrint()

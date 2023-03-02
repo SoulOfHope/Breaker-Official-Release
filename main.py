@@ -1,6 +1,3 @@
-import subprocess
-result=subprocess.run(["python3","-m","pip","install","sly"])
-print(result.stdout)
 import os
 import sys
 from sly import Lexer, Parser
@@ -151,7 +148,7 @@ Breaker Shell/Language
 
 Full Official Release v1.3.81
 
-Current Channel: Beta (Unstable)
+Current Channel: Official (Stable)
 
 Last Update: 11 Feb 2023
 

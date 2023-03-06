@@ -1,9 +1,0 @@
-#/This is an example of Breaker Code
-say hi
-set 1=hi
-call 1
-set 1=test
-call 1
-copy 1 to 2
-call 2
-#/this is a comment
